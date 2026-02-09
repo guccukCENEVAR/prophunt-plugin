@@ -1,0 +1,10 @@
+# PropHunt Models - cs_office
+# Her satira bir model yolu yazin (.vmdl)
+# '#' ile baslayan satirlar yorum satiridir
+
+models/props/cs_office/trash_can.vmdl
+models/props/cs_office/chair_office.vmdl
+models/props/cs_office/computer_monitor.vmdl
+models/props/de_inferno/claypot03.vmdl
+models/props/de_dust/hr_dust/dust_food_crate/dust_food_crate001.vmdl
+models/props/de_dust/hr_dust/dust_soccerball/dust_soccer_ball001.vmdl

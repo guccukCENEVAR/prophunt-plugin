@@ -1,0 +1,12 @@
+C:\Users\USER\Desktop\prophunt\bin\Release\net8.0\PropHunt.deps.json
+C:\Users\USER\Desktop\prophunt\bin\Release\net8.0\PropHunt.dll
+C:\Users\USER\Desktop\prophunt\bin\Release\net8.0\PropHunt.pdb
+C:\Users\USER\Desktop\prophunt\obj\Release\net8.0\PropHunt.csproj.AssemblyReference.cache
+C:\Users\USER\Desktop\prophunt\obj\Release\net8.0\PropHunt.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\USER\Desktop\prophunt\obj\Release\net8.0\PropHunt.AssemblyInfoInputs.cache
+C:\Users\USER\Desktop\prophunt\obj\Release\net8.0\PropHunt.AssemblyInfo.cs
+C:\Users\USER\Desktop\prophunt\obj\Release\net8.0\PropHunt.csproj.CoreCompileInputs.cache
+C:\Users\USER\Desktop\prophunt\obj\Release\net8.0\PropHunt.dll
+C:\Users\USER\Desktop\prophunt\obj\Release\net8.0\refint\PropHunt.dll
+C:\Users\USER\Desktop\prophunt\obj\Release\net8.0\PropHunt.pdb
+C:\Users\USER\Desktop\prophunt\obj\Release\net8.0\ref\PropHunt.dll

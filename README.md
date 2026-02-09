@@ -1,0 +1,278 @@
+# PropHunt - CS2 Plugin
+
+Counter-Strike 2 icin **CounterStrikeSharp v1.0.362** ile yazilmis Prop Hunt oyun modu plugini.
+
+Saklananlar haritadaki proplara donuserek gizlenir, arayicilar onlari bulup vurmaya calisir.
+
+---
+
+## Ozellikler
+
+- **Acma/Kapama Sistemi** - Admin komutu ile (`!prophunt`) mod acilir/kapanir, her zaman calismaz
+- **Prop Secimi** - Chat menusu veya rastgele atama ile prop modeli sec
+- **Saklanma Fazi** - Ayarlanabilir sure boyunca arayicilar dondurulur, saklananlar gizlenir
+- **Prop Hasar Sistemi** - Arayicilar prop'u vurursa saklanan oyuncu olur
+- **CheckTransmit Gizleme** - Oyuncu pawn'i istemciye hic gonderilmez (gercek gorunmezlik)
+- **Ses Gizleme** - Saklanan oyuncunun adim/hareket sesleri diger oyunculara iletilmez
+- **Taunt Sesi** - Sol tik veya `!taunt` ile ses calarak arayicilara ipucu ver
+- **Tus Atamalari** - Sol tik, sag tik, E, R tuslarina aksiyon atanabilir
+- **Dondurma** - Saklananlar kendini dondurarak sabit prop gibi davranabilir
+- **Decoy Sistemi** - Sahte prop birakarak arayicilari yanilt
+- **Model Degistirme** - Sinirli sayida model degistirme hakki
+- **3. Sahis Gorunum** - Saklananlar kendini gorebilir
+- **Islik** - `!whistle` ile arayicilara sesli ipucu ver
+- **Takim Karistirma** - Her round oncesi takimlar otomatik karistirilir
+- **Harita Bazli Modeller** - Her harita icin farkli model listeleri tanimla
+- **Otomatik Model Kesfi** - Haritadaki fizik proplari otomatik eklenir
+- **Son Saklanan Bildirimi** - Son kalan saklanan oyuncu herkes tarafindan bildirilir
+
+---
+
+## Gereksinimler
+
+- **MetaMod:Source** (son surum)
+- **CounterStrikeSharp** v1.0.362+
+
+---
+
+## Kurulum
+
+1. MetaMod:Source ve CounterStrikeSharp'i kurun
+2. Projeyi derleyin:
+   ```
+   dotnet restore
+   dotnet build -c Release
+   ```
+3. `bin/Release/net8.0/PropHunt.dll` dosyasini sunucunuzdaki `csgo/addons/counterstrikesharp/plugins/PropHunt/` klasorune kopyalayin
+4. `models/` klasorunu ayni plugin klasorune kopyalayin
+5. Sunucuyu yeniden baslatin
+6. Ilk calistirmadan sonra config dosyasi olusacaktir
+7. Oyun icinde `!prophunt` yazarak veya konsoldan `sv_prophunt 1` yazarak modu acin
+
+---
+
+## Mod Nasil Calisir?
+
+1. Admin `!prophunt` veya `sv_prophunt 1` ile modu acar
+2. Round basladiginda takimlar otomatik karistirilir
+3. **Saklananlar** gorunmez olur ve rastgele bir prop modeli atanir
+4. **Saklanma fazi** baslar (varsayilan 60 saniye) - arayicilar dondurulur
+5. Saklananlar prop modelini secer, gizlenecek yer bulur
+6. Sure dolunca arayicilara silah verilir ve av baslar
+7. Arayicilar proplari vurarak saklananlari oldurur
+8. Tum saklananlar olurse arayicilar, sure bitene kadar saklananlar hayatta kalirsa saklananlar kazanir
+
+---
+
+## Admin Komutlari
+
+| Komut | Yetki | Aciklama |
+|-------|-------|----------|
+| `!prophunt` / `!ph` | `@css/rcon` | PropHunt modunu ac/kapat (toggle) |
+| `!prophunt_enable` | `@css/rcon` | PropHunt modunu ac |
+| `!prophunt_disable` | `@css/rcon` | PropHunt modunu kapat |
+| `sv_prophunt 1` | Sunucu konsol | Konsoldan ac |
+| `sv_prophunt 0` | Sunucu konsol | Konsoldan kapat |
+| `sv_prophunt` | Sunucu konsol | Mevcut durumu goster |
+
+> `server.cfg` dosyaniza `sv_prophunt 1` ekleyerek sunucu basladiginda otomatik acilmasini saglayabilirsiniz.
+
+---
+
+## Oyuncu Komutlari (Saklananlar)
+
+| Komut | Aciklama |
+|-------|----------|
+| `!prop` / `!props` / `!model` | Prop secim menusu |
+| `!swap` | Rastgele model degistir |
+| `!freeze` / `!don` | Dondur / coz |
+| `!decoy` | Sahte prop yerlestir |
+| `!tp` / `!thirdperson` | 3. sahis gorunum |
+| `!taunt` | Taunt sesi cal |
+| `!whistle` | Islik cal |
+
+---
+
+## Tus Atamalari (Saklananlar)
+
+Saklanan oyuncular silah tasimadigi icin tuslar aksiyonlara atanmistir:
+
+| Tus | Varsayilan Aksiyon | Config Anahtari |
+|-----|--------------------|-----------------|
+| Sol Tik | Taunt sesi cal | `KeyTaunt` |
+| Sag Tik | Model degistir | `KeySwap` |
+| E (Use) | Dondur / Coz | `KeyFreeze` |
+| R (Reload) | Decoy yerlestir | `KeyDecoy` |
+
+Tus atamalarini config'den degistirebilir veya `"None"` yaparak devre disi birakabilirsiniz.
+
+Kullanilabilir degerler: `Attack`, `Attack2`, `Use`, `Reload`, `None`
+
+---
+
+## Yapilandirma
+
+Ilk calistirmadan sonra config dosyasi olusur:
+`csgo/addons/counterstrikesharp/configs/plugins/PropHunt/PropHunt.json`
+
+```json
+{
+  "EnabledByDefault": false,
+  "Prefix": "{lightblue}[PropHunt]",
+  "HidingTeam": "CT",
+  "HideTime": 60,
+  "TeamScramble": true,
+  "MinPlayers": 2,
+  "PropHealth": 100,
+  "SeekerHealth": 150,
+  "SwapLimit": 3,
+  "DecoyLimit": 2,
+  "WhistleLimit": 5,
+  "WhistleCooldown": 10,
+  "TauntLimit": 5,
+  "TauntCooldown": 15,
+  "TauntSounds": [
+    "sounds/ambient/animal/bird15.vsnd",
+    "sounds/ambient/animal/bird14.vsnd",
+    "sounds/ambient/animal/bird13.vsnd"
+  ],
+  "PropDamageKill": true,
+  "SeekerDamagePerMiss": 5,
+  "SeekerWeapons": [
+    "weapon_knife",
+    "weapon_p90",
+    "weapon_deagle"
+  ],
+  "DefaultModels": [
+    "models/props/de_dust/hr_dust/dust_soccerball/dust_soccer_ball001.vmdl",
+    "models/props/de_inferno/claypot03.vmdl",
+    "models/props/cs_office/trash_can.vmdl"
+  ],
+  "KeyTaunt": "Attack",
+  "KeySwap": "Attack2",
+  "KeyFreeze": "Use",
+  "KeyDecoy": "Reload"
+}
+```
+
+### Ayarlar Tablosu
+
+| Ayar | Varsayilan | Aciklama |
+|------|-----------|----------|
+| `EnabledByDefault` | `false` | Sunucu basladiginda mod acik mi? |
+| `Prefix` | `{lightblue}[PropHunt]` | Chat mesaj oneki |
+| `HidingTeam` | `CT` | Saklanan takim (`T` veya `CT`) |
+| `HideTime` | `60` | Saklanma suresi (saniye) |
+| `TeamScramble` | `true` | Round oncesi takimlari karistir |
+| `MinPlayers` | `2` | Minimum oyuncu sayisi |
+| `PropHealth` | `100` | Saklanan prop cani |
+| `SeekerHealth` | `150` | Arayici cani |
+| `SwapLimit` | `3` | Model degistirme limiti (saklanma fazinda sinirsiz) |
+| `DecoyLimit` | `2` | Sahte prop limiti |
+| `WhistleLimit` | `5` | Islik limiti |
+| `WhistleCooldown` | `10` | Islik bekleme suresi (saniye) |
+| `TauntLimit` | `5` | Taunt limiti |
+| `TauntCooldown` | `15` | Taunt bekleme suresi (saniye) |
+| `TauntSounds` | `bird15, 14, 13` | Taunt ses dosyalari listesi (.vsnd) |
+| `PropDamageKill` | `true` | Prop vurulunca oyuncu olsun mu? |
+| `SeekerDamagePerMiss` | `5` | Bos propa ates edince kaybedilen HP |
+| `SeekerWeapons` | `knife, p90, deagle` | Arayicilara verilecek silahlar |
+| `DefaultModels` | `(8 model)` | Harita dosyasi yoksa kullanilacak modeller |
+| `KeyTaunt` | `Attack` | Taunt tusu |
+| `KeySwap` | `Attack2` | Swap tusu |
+| `KeyFreeze` | `Use` | Freeze tusu |
+| `KeyDecoy` | `Reload` | Decoy tusu |
+
+---
+
+## Harita Modelleri
+
+Her harita icin ozel model listesi tanimlanabilir. Plugin klasorunde `models/` klasoru olusturun:
+
+```
+plugins/PropHunt/
+  PropHunt.dll
+  models/
+    de_mirage.txt
+    de_inferno.txt
+    de_dust2.txt
+    cs_office.txt
+```
+
+Her `.txt` dosyasina satirda bir model yolu yazin:
+
+```
+# Bu bir yorum satiridir
+models/props/de_inferno/claypot03.vmdl
+models/props/cs_office/trash_can.vmdl
+models/props/de_dust/hr_dust/dust_food_crate/dust_food_crate001.vmdl
+```
+
+JSON formati da desteklenir (`harita.json`):
+```json
+{
+  "Claypot": "models/props/de_inferno/claypot03.vmdl",
+  "Trash Can": "models/props/cs_office/trash_can.vmdl"
+}
+```
+
+**Oncelik sirasi:**
+1. `models/harita_adi.txt` dosyasi varsa kullanilir
+2. Yoksa `models/harita_adi.json` dosyasi kontrol edilir
+3. Hicbiri yoksa config'deki `DefaultModels` listesi kullanilir
+4. Ek olarak haritadaki fizik proplari otomatik kesfedilir ve listeye eklenir
+
+---
+
+## Teknik Detaylar
+
+| Ozellik | Uygulama |
+|---------|----------|
+| Oyuncu Gizleme | `CheckTransmit` listener - pawn verisi istemciye gonderilmez |
+| Ses Gizleme | UserMessage hook (ID 208 - CMsgSosStartSoundEvent) |
+| Prop Hasar | `HookEntityOutput("prop_dynamic", "OnTakeDamage")` |
+| Oyuncu Dondurma | `MoveType_t.MOVETYPE_OBSOLETE` + Schema set |
+| Tus Algilama | `PlayerButtons` flag kontrolu (one-press detection) |
+| Taunt Sesi | `point_soundevent` entity olusturma |
+| 3. Sahis Kamera | `CDynamicProp` kamera entity + `CameraServices.ViewEntity` |
+| Takim Karistirma | Fisher-Yates shuffle |
+
+---
+
+## Dosya Yapisi
+
+```
+prophunt/
+  PropHunt.csproj           # Proje dosyasi (CSSharp v1.0.362)
+  PropHuntPlugin.cs         # Ana plugin, state, helper metodlar
+  Events.cs                 # Round, spawn, olum, tick, CheckTransmit, ses hook
+  Commands.cs               # Admin + oyuncu komutlari, prop menusu
+  Config.cs                 # Yapilandirma sinifi
+  PlayerPropData.cs         # Oyuncu prop veri modeli
+  Utils.cs                  # Yardimci fonksiyonlar
+  models/                   # Harita bazli model listeleri
+    de_mirage.txt
+    de_inferno.txt
+    de_dust2.txt
+    cs_office.txt
+```
+
+---
+
+## Derleme
+
+```
+dotnet restore
+dotnet build -c Release
+```
+
+Cikti: `bin/Release/net8.0/PropHunt.dll`
+
+---
+
+## Lisans
+
+Bu proje acik kaynaktir.
+"# prophunt" 
+"# prophunt" 
+"# prophunt" 
