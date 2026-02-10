@@ -11,7 +11,7 @@ namespace PropHunt;
 public partial class PropHuntPlugin : BasePlugin, IPluginConfig<PluginConfig>
 {
     public override string ModuleName => "PropHunt";
-    public override string ModuleVersion => "1.0.0";
+    public override string ModuleVersion => "1.0.1";
     public override string ModuleAuthor => "PropHunt CS2";
     public override string ModuleDescription => "Prop Hunt gamemode for CS2 - Hiders disguise as props, Seekers hunt them down!";
 

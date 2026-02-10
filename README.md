@@ -33,24 +33,202 @@ Saklananlar haritadaki proplara donuserek gizlenir, arayicilar onlari bulup vurm
 
 ## Gereksinimler
 
-- **MetaMod:Source** (son surum)
+- **CS2 Dedicated Server** (SteamCMD ile kurulmus)
+- **.NET 8.0 SDK** (derleme icin)
+- **MetaMod:Source** (2.x son surum)
 - **CounterStrikeSharp** v1.0.362+
 
 ---
 
-## Kurulum
+## Detayli Kurulum
 
-1. MetaMod:Source ve CounterStrikeSharp'i kurun
-2. Projeyi derleyin:
-   ```
-   dotnet restore
-   dotnet build -c Release
-   ```
-3. `bin/Release/net8.0/PropHunt.dll` dosyasini sunucunuzdaki `csgo/addons/counterstrikesharp/plugins/PropHunt/` klasorune kopyalayin
-4. `models/` klasorunu ayni plugin klasorune kopyalayin
-5. Sunucuyu yeniden baslatin
-6. Ilk calistirmadan sonra config dosyasi olusacaktir
-7. Oyun icinde `!prophunt` yazarak veya konsoldan `sv_prophunt 1` yazarak modu acin
+### Adim 1: CS2 Dedicated Server Kurulumu
+
+Eger henuz bir CS2 sunucunuz yoksa SteamCMD ile kurun:
+
+```
+steamcmd +force_install_dir /home/cs2server +login anonymous +app_update 730 validate +quit
+```
+
+Windows icin SteamCMD'yi `https://developer.valvesoftware.com/wiki/SteamCMD` adresinden indirin.
+
+### Adim 2: MetaMod:Source Kurulumu
+
+1. `https://www.sourcemm.net/downloads.php?branch=master` adresinden **MetaMod:Source 2.x** son surumunu indirin
+2. Platform olarak **CS2 / Counter-Strike 2** secin
+3. Indirilen arsivi acin
+4. `addons/` klasorunu sunucunuzdaki `csgo/` klasorunun icine kopyalayin
+
+```
+csgo/
+  addons/
+    metamod/
+      bin/
+        ...
+    metamod.vdf
+```
+
+5. `csgo/gameinfo.gi` dosyasina MetaMod satirini ekleyin (otomatik eklenmiyorsa):
+```
+Game    csgo/addons/metamod
+```
+
+Bu satiri `SearchPaths` blogu icindeki diger `Game` satirlarinin ustune ekleyin.
+
+### Adim 3: CounterStrikeSharp Kurulumu
+
+1. `https://docs.cssharp.dev/docs/guides/getting-started.html` adresinden son surumu indirin
+   veya dogrudan GitHub Releases sayfasindan:
+   `https://github.com/roflmuffin/CounterStrikeSharp/releases`
+2. **v1.0.362** veya daha yeni bir surum secin
+3. Platformunuza uygun arsivi indirin:
+   - `counterstrikesharp-with-runtime-build-XXX-linux-XXX.zip` (Linux)
+   - `counterstrikesharp-with-runtime-build-XXX-windows-XXX.zip` (Windows)
+4. Arsivi acin ve icindeki `addons/` klasorunu sunucunuzdaki `csgo/` klasorunun icine kopyalayin
+
+```
+csgo/
+  addons/
+    counterstrikesharp/
+      api/
+      bin/
+      configs/
+      dotnet/
+      gamedata/
+      plugins/          <-- pluginler buraya gelecek
+      shared/
+      counterstrikesharp.dll
+    metamod/
+```
+
+5. Dogrulama: Sunucuyu baslatin ve konsolda `meta list` yazin. CounterStrikeSharp gorunuyorsa kurulum basarili.
+
+### Adim 4: Plugin Derleme
+
+Bu repo'yu klonlayin ve derleyin. **.NET 8.0 SDK** gereklidir (`https://dotnet.microsoft.com/download/dotnet/8.0`).
+
+```bash
+git clone https://github.com/guccukCENEVAR/prophunt-plugin.git
+cd prophunt-plugin
+dotnet restore
+dotnet build -c Release
+```
+
+Basarili derleme sonucunda cikti dosyasi:
+```
+bin/Release/net8.0/PropHunt.dll
+```
+
+### Adim 5: Plugin Yukleme
+
+1. Sunucunuzda plugin klasoru olusturun:
+```
+csgo/addons/counterstrikesharp/plugins/PropHunt/
+```
+
+2. Derlenen `PropHunt.dll` dosyasini bu klasore kopyalayin
+
+3. Repo'daki `models/` klasorunu de ayni yere kopyalayin
+
+Son hali:
+```
+csgo/addons/counterstrikesharp/plugins/PropHunt/
+  PropHunt.dll
+  models/
+    de_mirage.txt
+    de_inferno.txt
+    de_dust2.txt
+    de_nuke.txt
+    de_overpass.txt
+    de_ancient.txt
+    de_anubis.txt
+    de_vertigo.txt
+    cs_office.txt
+    cs_italy.txt
+```
+
+### Adim 6: Sunucuyu Baslat ve Yapilandir
+
+1. Sunucuyu yeniden baslatin
+2. Ilk calistirmada config dosyasi otomatik olusur:
+```
+csgo/addons/counterstrikesharp/configs/plugins/PropHunt/PropHunt.json
+```
+3. Config dosyasini ihtiyaciniza gore duzenleyin (ayarlar icin asagidaki Yapilandirma bolumune bakin)
+
+### Adim 7: Modu Ac
+
+Sunucu icinde su yontemlerden biriyle modu acin:
+
+**Yontem 1 - Oyun ici chat (admin yetkisi gerektirir):**
+```
+!prophunt
+```
+
+**Yontem 2 - Sunucu konsol:**
+```
+sv_prophunt 1
+```
+
+**Yontem 3 - Otomatik baslama (server.cfg):**
+`csgo/cfg/server.cfg` dosyasina ekleyin:
+```
+sv_prophunt 1
+```
+
+**Yontem 4 - Config ile otomatik baslama:**
+`PropHunt.json` config dosyasinda:
+```json
+"EnabledByDefault": true
+```
+
+### Onerilen Sunucu Ayarlari
+
+`server.cfg` dosyaniza su satirlari eklemeniz onerilir:
+
+```
+// PropHunt icin onerilen ayarlar
+sv_prophunt 1
+mp_roundtime 5
+mp_freezetime 0
+mp_warmuptime 15
+mp_maxrounds 20
+mp_autoteambalance 0
+mp_limitteams 0
+mp_give_player_c4 0
+mp_death_drop_gun 0
+mp_death_drop_grenade 0
+sv_disable_radar 1
+```
+
+### Sorun Giderme
+
+| Sorun | Cozum |
+|-------|-------|
+| Plugin yuklenmedi | Konsolda `css_plugins list` yazin. Gorunmuyorsa DLL yolunu kontrol edin |
+| `meta list` bos | MetaMod kurulumunu ve `gameinfo.gi` dosyasini kontrol edin |
+| Config olusmuyor | Plugin klasorunun dogru yerde oldugunu kontrol edin |
+| Modeller yuklenmedi | `models/` klasorunun `PropHunt.dll` ile ayni yerde oldugunu kontrol edin |
+| Admin komutlari calismadi | Oyuncunun `@css/rcon` yetkisine sahip oldugunu kontrol edin |
+| Derleme hatasi | .NET 8.0 SDK kurulu mu kontrol edin: `dotnet --version` |
+| Hasar sistemi calismadi | Config'de `PropDamageKill` degerinin `true` oldugunu kontrol edin |
+| Ses gizleme calismadi | CounterStrikeSharp surumunun v1.0.362+ oldugunu kontrol edin |
+
+### Admin Yetkisi Verme
+
+CounterStrikeSharp'ta admin yetkisi vermek icin:
+`csgo/addons/counterstrikesharp/configs/admins.json` dosyasina ekleyin:
+
+```json
+{
+  "AdminIsmi": {
+    "identity": "76561198XXXXXXXXX",
+    "flags": ["@css/rcon"]
+  }
+}
+```
+
+`identity` degeri oyuncunun **SteamID64** numarasidir. `https://steamid.io` adresinden bulabilirsiniz.
 
 ---
 
