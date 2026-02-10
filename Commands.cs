@@ -270,33 +270,13 @@ public partial class PropHuntPlugin
             return;
         }
 
-        if (!HiddenPlayers.TryGetValue(player.Slot, out var data))
+        if (!HiddenPlayers.ContainsKey(player.Slot))
         {
             PrintToChat(player, $"{ChatColors.Red}Once bir prop secmelisin!");
             return;
         }
 
-        if (data.WhistlesLeft <= 0)
-        {
-            PrintToChat(player, $"{ChatColors.Red}Islik hakkin kalmadi!");
-            return;
-        }
-
-        float currentTime = Server.CurrentTime;
-        if (currentTime - data.LastWhistleTime < Config.WhistleCooldown)
-        {
-            float remaining = Config.WhistleCooldown - (currentTime - data.LastWhistleTime);
-            PrintToChat(player, $"{ChatColors.Red}Islik bekleme suresi: {remaining:F0} saniye");
-            return;
-        }
-
-        data.WhistlesLeft--;
-        data.LastWhistleTime = currentTime;
-
-        // Announce whistle to all players
-        PrintToChatAll($"{ChatColors.Yellow}Bir saklanan islik caldi! {ChatColors.Grey}(Onu bul!)");
-
-        PrintToChat(player, $"{ChatColors.Green}Islik caldin! {ChatColors.Grey}Kalan: {ChatColors.Yellow}{data.WhistlesLeft}");
+        PlayWhistle(player);
     }
 
     private void CommandTaunt(CCSPlayerController? player, CommandInfo info)

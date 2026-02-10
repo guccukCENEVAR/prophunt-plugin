@@ -33,77 +33,14 @@ Saklananlar haritadaki proplara donuserek gizlenir, arayicilar onlari bulup vurm
 
 ## Gereksinimler
 
-- **CS2 Dedicated Server** (SteamCMD ile kurulmus)
-- **.NET 8.0 SDK** (derleme icin)
-- **MetaMod:Source** (2.x son surum)
-- **CounterStrikeSharp** v1.0.362+
+- **CounterStrikeSharp** v1.0.362+ kurulu bir CS2 sunucusu
+- **.NET 8.0 SDK** (kaynak koddan derlemek icin)
 
 ---
 
-## Detayli Kurulum
+## Kurulum
 
-### Adim 1: CS2 Dedicated Server Kurulumu
-
-Eger henuz bir CS2 sunucunuz yoksa SteamCMD ile kurun:
-
-```
-steamcmd +force_install_dir /home/cs2server +login anonymous +app_update 730 validate +quit
-```
-
-Windows icin SteamCMD'yi `https://developer.valvesoftware.com/wiki/SteamCMD` adresinden indirin.
-
-### Adim 2: MetaMod:Source Kurulumu
-
-1. `https://www.sourcemm.net/downloads.php?branch=master` adresinden **MetaMod:Source 2.x** son surumunu indirin
-2. Platform olarak **CS2 / Counter-Strike 2** secin
-3. Indirilen arsivi acin
-4. `addons/` klasorunu sunucunuzdaki `csgo/` klasorunun icine kopyalayin
-
-```
-csgo/
-  addons/
-    metamod/
-      bin/
-        ...
-    metamod.vdf
-```
-
-5. `csgo/gameinfo.gi` dosyasina MetaMod satirini ekleyin (otomatik eklenmiyorsa):
-```
-Game    csgo/addons/metamod
-```
-
-Bu satiri `SearchPaths` blogu icindeki diger `Game` satirlarinin ustune ekleyin.
-
-### Adim 3: CounterStrikeSharp Kurulumu
-
-1. `https://docs.cssharp.dev/docs/guides/getting-started.html` adresinden son surumu indirin
-   veya dogrudan GitHub Releases sayfasindan:
-   `https://github.com/roflmuffin/CounterStrikeSharp/releases`
-2. **v1.0.362** veya daha yeni bir surum secin
-3. Platformunuza uygun arsivi indirin:
-   - `counterstrikesharp-with-runtime-build-XXX-linux-XXX.zip` (Linux)
-   - `counterstrikesharp-with-runtime-build-XXX-windows-XXX.zip` (Windows)
-4. Arsivi acin ve icindeki `addons/` klasorunu sunucunuzdaki `csgo/` klasorunun icine kopyalayin
-
-```
-csgo/
-  addons/
-    counterstrikesharp/
-      api/
-      bin/
-      configs/
-      dotnet/
-      gamedata/
-      plugins/          <-- pluginler buraya gelecek
-      shared/
-      counterstrikesharp.dll
-    metamod/
-```
-
-5. Dogrulama: Sunucuyu baslatin ve konsolda `meta list` yazin. CounterStrikeSharp gorunuyorsa kurulum basarili.
-
-### Adim 4: Plugin Derleme
+### Adim 1: Plugin Derleme
 
 Bu repo'yu klonlayin ve derleyin. **.NET 8.0 SDK** gereklidir (`https://dotnet.microsoft.com/download/dotnet/8.0`).
 
@@ -119,7 +56,7 @@ Basarili derleme sonucunda cikti dosyasi:
 bin/Release/net8.0/PropHunt.dll
 ```
 
-### Adim 5: Plugin Yukleme
+### Adim 2: Plugin Yukleme
 
 1. Sunucunuzda plugin klasoru olusturun:
 ```
@@ -147,7 +84,7 @@ csgo/addons/counterstrikesharp/plugins/PropHunt/
     cs_italy.txt
 ```
 
-### Adim 6: Sunucuyu Baslat ve Yapilandir
+### Adim 3: Sunucuyu Baslat ve Yapilandir
 
 1. Sunucuyu yeniden baslatin
 2. Ilk calistirmada config dosyasi otomatik olusur:
@@ -156,7 +93,7 @@ csgo/addons/counterstrikesharp/configs/plugins/PropHunt/PropHunt.json
 ```
 3. Config dosyasini ihtiyaciniza gore duzenleyin (ayarlar icin asagidaki Yapilandirma bolumune bakin)
 
-### Adim 7: Modu Ac
+### Adim 4: Modu Ac
 
 Sunucu icinde su yontemlerden biriyle modu acin:
 

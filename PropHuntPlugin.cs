@@ -11,7 +11,7 @@ namespace PropHunt;
 public partial class PropHuntPlugin : BasePlugin, IPluginConfig<PluginConfig>
 {
     public override string ModuleName => "PropHunt";
-    public override string ModuleVersion => "1.0.1";
+    public override string ModuleVersion => "1.0.2";
     public override string ModuleAuthor => "PropHunt CS2";
     public override string ModuleDescription => "Prop Hunt gamemode for CS2 - Hiders disguise as props, Seekers hunt them down!";
 
@@ -137,6 +137,71 @@ public partial class PropHuntPlugin : BasePlugin, IPluginConfig<PluginConfig>
     public void PrintToChat(CCSPlayerController player, string message)
     {
         player.PrintToChat($" {FormattedPrefix} {ChatColors.Default}{message}");
+    }
+
+    /// <summary>
+    /// Returns the display name for a key config value.
+    /// "Attack" -> "Sol Tik", "Attack2" -> "Sag Tik", "Use" -> "E", "Reload" -> "R", "None" -> null
+    /// </summary>
+    public static string? GetKeyDisplayName(string configKey)
+    {
+        return configKey.ToLower() switch
+        {
+            "attack" => "Sol Tik",
+            "attack2" => "Sag Tik",
+            "use" => "E",
+            "reload" => "R",
+            _ => null
+        };
+    }
+
+    /// <summary>
+    /// Builds a dynamic key binding info string for chat from current config.
+    /// Only shows bindings that are not "None".
+    /// </summary>
+    public string BuildKeyBindingChat()
+    {
+        var parts = new List<string>();
+
+        void Add(string key, string action)
+        {
+            var name = GetKeyDisplayName(key);
+            if (name != null)
+                parts.Add($"{ChatColors.LightBlue}{name} {ChatColors.Grey}({action})");
+        }
+
+        Add(Config.KeyTaunt, "taunt");
+        Add(Config.KeySwap, "swap");
+        Add(Config.KeyFreeze, "don");
+        Add(Config.KeyWhistle, "islik");
+        Add(Config.KeyDecoy, "decoy");
+
+        return parts.Count > 0
+            ? $"{ChatColors.Grey}Tuslar: " + string.Join($" {ChatColors.Grey}| ", parts)
+            : string.Empty;
+    }
+
+    /// <summary>
+    /// Builds a short key binding string for center HUD display.
+    /// </summary>
+    public string BuildKeyBindingCenter()
+    {
+        var parts = new List<string>();
+
+        void Add(string key, string action)
+        {
+            var name = GetKeyDisplayName(key);
+            if (name != null)
+                parts.Add($"{name}: {action}");
+        }
+
+        Add(Config.KeyTaunt, "Taunt");
+        Add(Config.KeySwap, "Swap");
+        Add(Config.KeyFreeze, "Don");
+        Add(Config.KeyWhistle, "Islik");
+        Add(Config.KeyDecoy, "Decoy");
+
+        return string.Join(" | ", parts);
     }
 
     /// <summary>
@@ -633,6 +698,36 @@ public partial class PropHuntPlugin : BasePlugin, IPluginConfig<PluginConfig>
 
         PrintToChat(player, $"{ChatColors.Green}Taunt caldi! {ChatColors.Grey}Kalan: {ChatColors.Yellow}{data.TauntsLeft}");
         PrintToChatAll($"{ChatColors.Magenta}Bir saklanan taunt kullandi! {ChatColors.Grey}Sesi takip edin!");
+    }
+
+    // ── Whistle System ────────────────────────────────────────
+
+    /// <summary>
+    /// Play a whistle sound. All players get notified.
+    /// </summary>
+    public void PlayWhistle(CCSPlayerController player)
+    {
+        if (!HiddenPlayers.TryGetValue(player.Slot, out var data)) return;
+
+        if (data.WhistlesLeft <= 0)
+        {
+            PrintToChat(player, $"{ChatColors.Red}Islik hakkin kalmadi!");
+            return;
+        }
+
+        float currentTime = Server.CurrentTime;
+        if (currentTime - data.LastWhistleTime < Config.WhistleCooldown)
+        {
+            float remaining = Config.WhistleCooldown - (currentTime - data.LastWhistleTime);
+            PrintToChat(player, $"{ChatColors.Red}Islik bekleme suresi: {remaining:F0} saniye");
+            return;
+        }
+
+        data.WhistlesLeft--;
+        data.LastWhistleTime = currentTime;
+
+        PrintToChatAll($"{ChatColors.Yellow}Bir saklanan islik caldi! {ChatColors.Grey}(Onu bul!)");
+        PrintToChat(player, $"{ChatColors.Green}Islik caldin! {ChatColors.Grey}Kalan: {ChatColors.Yellow}{data.WhistlesLeft}");
     }
 
     // ── Seeker Damage Penalty ───────────────────────────────

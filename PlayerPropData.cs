@@ -23,6 +23,7 @@ public class PlayerPropData
     public bool _btnTauntDown;
     public bool _btnSwapDown;
     public bool _btnFreezeDown;
+    public bool _btnWhistleDown;
     public bool _btnDecoyDown;
 
     public PlayerPropData(int swapLimit, int decoyLimit, int whistleLimit, int tauntLimit)

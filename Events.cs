@@ -164,8 +164,10 @@ public partial class PropHuntPlugin
                     SpawnPropForPlayer(player);
 
                     PrintToChat(player, $"{ChatColors.Green}Saklanma zamani! {ChatColors.Yellow}{Config.HideTime} saniye{ChatColors.Default} saklanma suresi.");
-                    PrintToChat(player, $"{ChatColors.Grey}Tuslar: {ChatColors.LightBlue}Sol Tik {ChatColors.Grey}(taunt) | {ChatColors.LightBlue}Sag Tik {ChatColors.Grey}(swap) | {ChatColors.LightBlue}E {ChatColors.Grey}(don) | {ChatColors.LightBlue}R {ChatColors.Grey}(decoy)");
-                    PrintToChat(player, $"{ChatColors.Grey}Komutlar: {ChatColors.LightBlue}!prop {ChatColors.Grey}(model sec) | {ChatColors.LightBlue}!tp {ChatColors.Grey}(3. sahis) | {ChatColors.LightBlue}!whistle {ChatColors.Grey}(islik)");
+                    var keyInfo = BuildKeyBindingChat();
+                    if (!string.IsNullOrEmpty(keyInfo))
+                        PrintToChat(player, keyInfo);
+                    PrintToChat(player, $"{ChatColors.Grey}Komutlar: {ChatColors.LightBlue}!prop {ChatColors.Grey}(model sec) | {ChatColors.LightBlue}!tp {ChatColors.Grey}(3. sahis) | {ChatColors.LightBlue}!taunt !whistle !decoy");
                 });
             }
             else if (player.Team == SeekingTeam)
@@ -391,6 +393,7 @@ public partial class PropHuntPlugin
             ProcessKeyBinding(buttons, Config.KeyTaunt, ref data._btnTauntDown, () => PlayTaunt(player));
             ProcessKeyBinding(buttons, Config.KeySwap, ref data._btnSwapDown, () => SwapPropModel(player));
             ProcessKeyBinding(buttons, Config.KeyFreeze, ref data._btnFreezeDown, () => ToggleFreeze(player));
+            ProcessKeyBinding(buttons, Config.KeyWhistle, ref data._btnWhistleDown, () => PlayWhistle(player));
             ProcessKeyBinding(buttons, Config.KeyDecoy, ref data._btnDecoyDown, () => PlaceDecoy(player));
         }
 
@@ -408,7 +411,7 @@ public partial class PropHuntPlugin
 
                     if (player.Team == HidingTeam)
                     {
-                        player.PrintToCenter($"Saklanma suresi: {timeLeft} | Sol Tik: Taunt | Sag Tik: Swap | E: Don | R: Decoy");
+                        player.PrintToCenter($"Saklanma suresi: {timeLeft} | {BuildKeyBindingCenter()}");
                     }
                     else if (player.Team == SeekingTeam)
                     {
@@ -427,7 +430,7 @@ public partial class PropHuntPlugin
 
                 var data = kvp.Value;
                 string frozenStatus = data.IsFrozen ? "DONMUS" : "HAREKET";
-                player.PrintToCenter($"Swap: {data.SwapsLeft} | Decoy: {data.DecoysLeft} | Taunt: {data.TauntsLeft} | {frozenStatus}\nSol Tik: Taunt | Sag Tik: Swap | E: Don | R: Decoy");
+                player.PrintToCenter($"Swap: {data.SwapsLeft} | Decoy: {data.DecoysLeft} | Taunt: {data.TauntsLeft} | Islik: {data.WhistlesLeft} | {frozenStatus}\n{BuildKeyBindingCenter()}");
             }
         }
     }

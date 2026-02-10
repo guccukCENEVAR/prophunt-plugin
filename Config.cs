@@ -39,7 +39,7 @@ public class PluginConfig : BasePluginConfig
     public int SwapLimit { get; set; } = 3;
 
     [JsonPropertyName("DecoyLimit")]
-    public int DecoyLimit { get; set; } = 2;
+    public int DecoyLimit { get; set; } = 0;
 
     [JsonPropertyName("WhistleLimit")]
     public int WhistleLimit { get; set; } = 5;
@@ -140,6 +140,9 @@ public class PluginConfig : BasePluginConfig
     [JsonPropertyName("KeyFreeze")]
     public string KeyFreeze { get; set; } = "Use";
 
+    [JsonPropertyName("KeyWhistle")]
+    public string KeyWhistle { get; set; } = "Reload";
+
     [JsonPropertyName("KeyDecoy")]
-    public string KeyDecoy { get; set; } = "Reload";
+    public string KeyDecoy { get; set; } = "None";
 }
