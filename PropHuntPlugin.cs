@@ -11,7 +11,7 @@ namespace PropHunt;
 public partial class PropHuntPlugin : BasePlugin, IPluginConfig<PluginConfig>
 {
     public override string ModuleName => "PropHunt";
-    public override string ModuleVersion => "1.0.2";
+    public override string ModuleVersion => "1.0.3";
     public override string ModuleAuthor => "PropHunt CS2";
     public override string ModuleDescription => "Prop Hunt gamemode for CS2 - Hiders disguise as props, Seekers hunt them down!";
 
@@ -29,6 +29,7 @@ public partial class PropHuntPlugin : BasePlugin, IPluginConfig<PluginConfig>
     // ── State ───────────────────────────────────────────────
     public bool PropHuntEnabled { get; set; } = false;
     public List<string> AvailableModels { get; set; } = new();
+    public List<string> AvailableTauntSounds { get; set; } = new();
     public Dictionary<int, PlayerPropData> HiddenPlayers { get; set; } = new();
     public bool IsHidingPhase { get; set; } = false;
     public DateTime HidePhaseEndTime { get; set; } = DateTime.Now;
@@ -67,11 +68,12 @@ public partial class PropHuntPlugin : BasePlugin, IPluginConfig<PluginConfig>
         // Register commands
         RegisterCommands();
 
-        // If hot reloading, load models for current map
+        // If hot reloading, load models and taunt sounds for current map
         if (hotReload)
         {
             AvailableModels = Utils.LoadMapModels(ModuleDirectory, Server.MapName, Config.DefaultModels);
-            Logger.LogInformation($"[PropHunt] Hot reload: loaded {AvailableModels.Count} models for {Server.MapName}");
+            AvailableTauntSounds = Utils.LoadTauntSounds(ModuleDirectory, Config.TauntSounds);
+            Logger.LogInformation($"[PropHunt] Hot reload: loaded {AvailableModels.Count} models, {AvailableTauntSounds.Count} taunt sounds");
         }
     }
 
@@ -645,7 +647,7 @@ public partial class PropHuntPlugin : BasePlugin, IPluginConfig<PluginConfig>
     {
         if (!HiddenPlayers.TryGetValue(player.Slot, out var data)) return;
 
-        if (Config.TauntSounds.Count == 0)
+        if (AvailableTauntSounds.Count == 0)
         {
             PrintToChat(player, $"{ChatColors.Red}Taunt sesleri yapilandirilmamis!");
             return;
@@ -672,7 +674,7 @@ public partial class PropHuntPlugin : BasePlugin, IPluginConfig<PluginConfig>
         if (pawn == null) return;
 
         // Pick a random taunt sound
-        string sound = Config.TauntSounds[Random.Shared.Next(Config.TauntSounds.Count)];
+        string sound = AvailableTauntSounds[Random.Shared.Next(AvailableTauntSounds.Count)];
 
         // Get the position to play the sound at (prop position or player position)
         var soundPos = data.PropEntity != null && data.PropEntity.IsValid

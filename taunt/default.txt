@@ -1,0 +1,17 @@
+# PropHunt Taunt Sesleri
+# Her satira bir ses dosyasi yolu yazin (.vsnd)
+# '#' ile baslayan satirlar yorum satiridir
+# Bu klasordeki tum .txt dosyalari otomatik yuklenir
+
+# ── Hayvan Sesleri ──
+sounds/ambient/animal/bird15.vsnd
+sounds/ambient/animal/bird14.vsnd
+sounds/ambient/animal/bird13.vsnd
+
+# ── Daha fazla ses eklemek icin asagiya yazin ──
+# Ornek:
+# sounds/weapons/flashbang/flashbang_explode1.vsnd
+# sounds/radio/go.vsnd
+# sounds/radio/negative.vsnd
+# sounds/radio/roger.vsnd
+# sounds/ui/menu_accept.vsnd

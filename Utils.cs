@@ -287,6 +287,64 @@ public static class Utils
     }
 
     /// <summary>
+    /// Load taunt sounds from the taunt directory.
+    /// 1) Reads all .txt files and collects .vsnd paths from them.
+    /// 2) Scans taunt/ for actual .vsnd files and adds their resource path.
+    /// 3) Merges with config defaults.
+    /// </summary>
+    public static List<string> LoadTauntSounds(string moduleDirectory, List<string> configSounds)
+    {
+        var sounds = new List<string>();
+        string tauntDir = Path.Combine(moduleDirectory, "taunt");
+
+        if (Directory.Exists(tauntDir))
+        {
+            try
+            {
+                // 1) Paths from .txt files
+                foreach (string file in Directory.GetFiles(tauntDir, "*.txt"))
+                {
+                    foreach (string line in File.ReadAllLines(file))
+                    {
+                        string trimmed = line.Trim();
+                        if (string.IsNullOrEmpty(trimmed) || trimmed.StartsWith("//") || trimmed.StartsWith("#"))
+                            continue;
+
+                        if (trimmed.EndsWith(".vsnd", StringComparison.OrdinalIgnoreCase))
+                        {
+                            if (!sounds.Contains(trimmed))
+                                sounds.Add(trimmed);
+                        }
+                    }
+                }
+
+                // 2) Actual .vsnd files in taunt/ folder -> build resource path relative to csgo
+                var csgoDir = Directory.GetParent(moduleDirectory)?.Parent?.Parent?.Parent;
+                if (csgoDir != null)
+                {
+                    foreach (string vsndFile in Directory.GetFiles(tauntDir, "*.vsnd"))
+                    {
+                        string relativePath = Path.GetRelativePath(csgoDir.FullName, vsndFile)
+                            .Replace('\\', '/');
+                        if (!sounds.Contains(relativePath))
+                            sounds.Add(relativePath);
+                    }
+                }
+            }
+            catch (Exception) { }
+        }
+
+        // 3) Merge with config sounds
+        foreach (var sound in configSounds)
+        {
+            if (!string.IsNullOrEmpty(sound) && !sounds.Contains(sound))
+                sounds.Add(sound);
+        }
+
+        return sounds;
+    }
+
+    /// <summary>
     /// Shuffle a list in place using Fisher-Yates algorithm.
     /// </summary>
     public static void Shuffle<T>(this IList<T> list)

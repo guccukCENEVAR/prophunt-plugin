@@ -14,9 +14,10 @@ public partial class PropHuntPlugin
 
     private void OnMapStart(string mapName)
     {
-        // Always load models (so they're ready when mode is enabled)
+        // Always load models and taunt sounds (so they're ready when mode is enabled)
         AvailableModels = Utils.LoadMapModels(ModuleDirectory, mapName, Config.DefaultModels);
-        Logger.LogInformation($"[PropHunt] Loaded {AvailableModels.Count} models for map: {mapName}");
+        AvailableTauntSounds = Utils.LoadTauntSounds(ModuleDirectory, Config.TauntSounds);
+        Logger.LogInformation($"[PropHunt] Loaded {AvailableModels.Count} models, {AvailableTauntSounds.Count} taunt sounds for map: {mapName}");
 
         // Cleanup state
         HiddenPlayers.Clear();
@@ -61,8 +62,8 @@ public partial class PropHuntPlugin
                 manifest.AddResource(model);
         }
 
-        // Precache taunt sounds
-        foreach (var sound in Config.TauntSounds)
+        // Precache taunt sounds (from folder + config)
+        foreach (var sound in AvailableTauntSounds)
         {
             if (!string.IsNullOrEmpty(sound))
                 manifest.AddResource(sound);

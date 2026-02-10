@@ -65,7 +65,7 @@ csgo/addons/counterstrikesharp/plugins/PropHunt/
 
 2. Derlenen `PropHunt.dll` dosyasini bu klasore kopyalayin
 
-3. Repo'daki `models/` klasorunu de ayni yere kopyalayin
+3. Repo'daki `models/` ve `taunt/` klasorlerini de ayni yere kopyalayin
 
 Son hali:
 ```
@@ -74,14 +74,9 @@ csgo/addons/counterstrikesharp/plugins/PropHunt/
   models/
     de_mirage.txt
     de_inferno.txt
-    de_dust2.txt
-    de_nuke.txt
-    de_overpass.txt
-    de_ancient.txt
-    de_anubis.txt
-    de_vertigo.txt
-    cs_office.txt
-    cs_italy.txt
+    ...
+  taunt/
+    default.txt   # Taunt ses yollari (istege bagli)
 ```
 
 ### Adim 3: Sunucuyu Baslat ve Yapilandir
@@ -374,6 +369,59 @@ JSON formati da desteklenir (`harita.json`):
 
 ---
 
+## Taunt ve Islik Sesleri
+
+### Taunt sesleri nasil eklenir?
+
+Taunt sesleri **sadece .vsnd** formatinda calisir. Iki yontem:
+
+**Yontem 1 – Oyun icindeki hazir sesler**
+
+Plugin klasorunde `taunt/` klasoru olusturun. Icine bir `.txt` dosyasi (ornegin `default.txt`) koyun ve her satira bir ses yolu yazin:
+
+```
+# taunt/default.txt
+sounds/ambient/animal/bird15.vsnd
+sounds/ambient/animal/bird14.vsnd
+sounds/radio/go.vsnd
+sounds/radio/negative.vsnd
+sounds/ui/menu_accept.vsnd
+```
+
+Bu yollar CS2'nin kendi sesleri; ekstra dosya yuklemeniz gerekmez. Daha fazla yol icin oyun `pak01_dir.vpk` icindeki `sounds/` klasorune GCFScape veya Source 2 Viewer ile bakabilirsiniz.
+
+**Yontem 2 – Kendi .vsnd dosyalariniz**
+
+- **Secenek A:** .vsnd dosyasini dogrudan `taunt/` klasorune kopyalayin. Plugin bu klasordeki tum `.vsnd` dosyalarini otomatik tarar ve kullanir.
+- **Secenek B:** .vsnd dosyanizi sunucuda `csgo/sounds/prophunt_taunt/` gibi bir klasore koyun. `taunt/default.txt` icinde su satiri ekleyin:
+  ```
+  sounds/prophunt_taunt/benim_sesim.vsnd
+  ```
+
+Kendi ses dosyanizi (mp3, wav) kullanmak icin once .vsnd formatina cevirmeniz gerekir (Valve veya topluluk araclari). Detaylar icin `taunt/README.md` dosyasina bakin.
+
+**Klasor yapisi ornegi:**
+```
+plugins/PropHunt/
+  PropHunt.dll
+  models/
+  taunt/
+    default.txt      # Icerigi: ses yollari (her satira bir .vsnd yolu)
+    benim_sesim.vsnd # Istege bagli: dogrudan .vsnd dosyasi
+```
+
+Config'deki `TauntSounds` listesi de her zaman eklenir; taunt klasoru ve config birlikte kullanilir.
+
+### Islik nasil kullanilir?
+
+- **Tus:** Varsayilan `R` (Reload). Config'de `KeyWhistle` ile degistirilebilir.
+- **Komut:** Chat'te `!whistle` yazin.
+- Islik kullanildiginda tum oyunculara "Bir saklanan islik caldi!" mesaji gider. Limit ve bekleme suresi config'de `WhistleLimit` ve `WhistleCooldown` ile ayarlanir.
+
+Islik su an sadece metin bildirimi yapar; ses efekti yoktur. Ses eklemek isterseniz taunt sesleri gibi .vsnd tabanli bir sistem ileride eklenebilir.
+
+---
+
 ## Teknik Detaylar
 
 | Ozellik | Uygulama |
@@ -404,15 +452,10 @@ prophunt/
   Utils.cs                  # Yardimci fonksiyonlar (boyut siniflandirma dahil)
   models/                   # Harita bazli model listeleri (10 harita)
     de_mirage.txt
-    de_inferno.txt
-    de_dust2.txt
-    de_nuke.txt
-    de_overpass.txt
-    de_ancient.txt
-    de_anubis.txt
-    de_vertigo.txt
-    cs_office.txt
-    cs_italy.txt
+    ...
+  taunt/                    # Taunt ses yollari (.txt listesi veya .vsnd dosyalari)
+    default.txt
+    README.md
 ```
 
 ---
