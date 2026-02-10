@@ -388,13 +388,37 @@ public partial class PropHuntPlugin
                         data.SwapsLeft--;
                     }
 
+                    var oldSize = data.Size;
                     data.ModelPath = modelCapture;
                     if (data.PropEntity != null && data.PropEntity.IsValid)
                     {
                         data.PropEntity.SetModel(modelCapture);
                     }
 
-                    PrintToChat(p, $"{ChatColors.Green}Model secildi: {ChatColors.Yellow}{displayName}");
+                    // Update prop size and scale health
+                    var newSize = Utils.ClassifyPropSize(modelCapture);
+                    data.Size = newSize;
+
+                    int newMaxHealth = Utils.GetHealthForPropSize(newSize, Config.PropHealthSmall, Config.PropHealthMedium, Config.PropHealthLarge);
+                    int oldMaxHealth = Utils.GetHealthForPropSize(oldSize, Config.PropHealthSmall, Config.PropHealthMedium, Config.PropHealthLarge);
+
+                    var pawn = p.PlayerPawn.Value;
+                    if (pawn != null)
+                    {
+                        int currentHealth = pawn.Health;
+                        int scaledHealth = (int)Math.Ceiling((double)currentHealth / oldMaxHealth * newMaxHealth);
+                        scaledHealth = Math.Clamp(scaledHealth, 1, newMaxHealth);
+                        Utils.SetHealth(p, scaledHealth);
+                    }
+
+                    string sizeText = newSize switch
+                    {
+                        PropSize.Small => "Kucuk",
+                        PropSize.Large => "Buyuk",
+                        _ => "Orta"
+                    };
+
+                    PrintToChat(p, $"{ChatColors.Green}Model secildi: {ChatColors.Yellow}{displayName} {ChatColors.Grey}| Boyut: {ChatColors.Yellow}{sizeText}");
                 }
             });
         }

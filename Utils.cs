@@ -7,8 +7,72 @@ using System.Drawing;
 
 namespace PropHunt;
 
+public enum PropSize
+{
+    Small,
+    Medium,
+    Large
+}
+
 public static class Utils
 {
+    // ── Prop boyut siniflandirmasi ─────────────────────────────
+    // Model dosya yolundaki anahtar kelimelere gore boyut belirlenir.
+
+    private static readonly HashSet<string> SmallKeywords = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "bottle", "can001", "can002", "popcan", "shoe", "soccer_ball", "soccerball",
+        "pottery", "claypot", "pot_big", "bucket", "bell", "hard_hat", "hat",
+        "cone", "bag001", "wine_bottle", "coffee_mug", "phone", "keyboard",
+        "paper_towels", "snowman", "fuel_can", "gas_can", "fire_extinguisher",
+        "toolbox", "fruit", "garbage_bag", "garbage_metal", "garbage_plastic",
+        "clay_pot", "stone_vase", "wooden_bucket"
+    };
+
+    private static readonly HashSet<string> LargeKeywords = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "door", "pallet", "wood_pile", "sofa", "bookshelf", "vending_machine",
+        "dumpster", "wagon", "desk", "table", "shelves", "whiteboard",
+        "cart", "locker", "carpet", "satellite_dish", "clothes_line",
+        "bench", "file_cabinet_tall", "crate_style_01_large", "market_cart",
+        "wheelbarrow", "cement_bag"
+    };
+
+    /// <summary>
+    /// Model yoluna bakarak prop boyutunu belirler.
+    /// </summary>
+    public static PropSize ClassifyPropSize(string modelPath)
+    {
+        string lower = modelPath.ToLowerInvariant();
+
+        foreach (var keyword in SmallKeywords)
+        {
+            if (lower.Contains(keyword, StringComparison.OrdinalIgnoreCase))
+                return PropSize.Small;
+        }
+
+        foreach (var keyword in LargeKeywords)
+        {
+            if (lower.Contains(keyword, StringComparison.OrdinalIgnoreCase))
+                return PropSize.Large;
+        }
+
+        return PropSize.Medium;
+    }
+
+    /// <summary>
+    /// Prop boyutuna gore can degerini dondurur.
+    /// </summary>
+    public static int GetHealthForPropSize(PropSize size, int smallHp, int mediumHp, int largeHp)
+    {
+        return size switch
+        {
+            PropSize.Small => smallHp,
+            PropSize.Large => largeHp,
+            _ => mediumHp
+        };
+    }
+
     /// <summary>
     /// Parses a team string ("T", "CT") into a CsTeam enum.
     /// </summary>

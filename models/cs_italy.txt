@@ -1,4 +1,4 @@
-# PropHunt Models - de_inferno
+# PropHunt Models - cs_italy
 # Her satira bir model yolu yazin (.vmdl)
 # '#' ile baslayan satirlar yorum satiridir
 
@@ -13,8 +13,7 @@ models/props_junk/garbage_plasticbottle001a.vmdl
 models/props_junk/garbage_metalcan001a.vmdl
 models/props_junk/popcan01a.vmdl
 models/props_junk/shoe001a.vmdl
-models/props/de_inferno/hr_i/inferno_wine_barrel/inferno_wine_barrel.vmdl
-models/props/de_inferno/hr_i/inferno_bell/inferno_bell.vmdl
+models/props/de_dust/hr_dust/dust_rusty_bucket/dust_rusty_bucket.vmdl
 
 # ── Orta Proplar ──
 models/props/de_inferno/flower_barrel.vmdl
@@ -27,20 +26,19 @@ models/props_junk/wood_crate001a.vmdl
 models/props_junk/wood_crate002a.vmdl
 models/props_junk/cardboard_box001a.vmdl
 models/props_junk/cardboard_box003a.vmdl
-models/props/de_inferno/hr_i/inferno_chimney_cap/inferno_chimney_cap.vmdl
 models/props/cs_office/chair_office.vmdl
-models/props/de_dust/hr_dust/dust_rusty_bucket/dust_rusty_bucket.vmdl
 models/props/cs_office/fire_extinguisher.vmdl
+models/props/de_dust/hr_dust/dust_wooden_barrel/dust_wooden_barrel.vmdl
+models/props/de_inferno/hr_i/inferno_wine_barrel/inferno_wine_barrel.vmdl
 models/props/de_inferno/hr_i/inferno_fruit_crate/inferno_fruit_crate.vmdl
-models/props/de_inferno/hr_i/inferno_hay_bale/inferno_hay_bale.vmdl
+models/props/cs_italy/hr_italy/italy_wine_bottle/italy_wine_bottle.vmdl
 
 # ── Buyuk Proplar ──
 models/props/de_inferno/hr_i/inferno_wagon/inferno_wagon.vmdl
 models/props/de_inferno/hr_i/inferno_wood_pile/inferno_wood_pile.vmdl
 models/props_junk/wood_pallet001a.vmdl
 models/props/de_dust/hr_dust/dust_metal_door/dust_metal_door001.vmdl
-models/props/de_dust/hr_dust/dust_crates/dust_crate_style_01_large.vmdl
-models/props/de_inferno/hr_i/inferno_dumpster/inferno_dumpster.vmdl
 models/props/cs_office/sofa.vmdl
 models/props/cs_office/bookshelf1.vmdl
-models/props/de_inferno/hr_i/inferno_clothes_line/inferno_clothes_line.vmdl
+models/props/de_inferno/hr_i/inferno_dumpster/inferno_dumpster.vmdl
+models/props/de_dust/hr_dust/dust_carpet_01/dust_carpet_01.vmdl

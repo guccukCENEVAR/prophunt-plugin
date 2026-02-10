@@ -182,11 +182,16 @@ public partial class PropHuntPlugin : BasePlugin, IPluginConfig<PluginConfig>
             prop.Collision.CollisionAttribute.CollisionGroup = 2;
         }
 
+        // Classify prop size and determine health
+        var propSize = Utils.ClassifyPropSize(model);
+        int propHealth = Utils.GetHealthForPropSize(propSize, Config.PropHealthSmall, Config.PropHealthMedium, Config.PropHealthLarge);
+
         // Create player prop data
         var propData = new PlayerPropData(Config.SwapLimit, Config.DecoyLimit, Config.WhistleLimit, Config.TauntLimit)
         {
             PropEntity = prop,
-            ModelPath = model
+            ModelPath = model,
+            Size = propSize
         };
 
         HiddenPlayers[player.Slot] = propData;
@@ -198,8 +203,17 @@ public partial class PropHuntPlugin : BasePlugin, IPluginConfig<PluginConfig>
         // Remove all weapons from hiders
         player.RemoveWeapons();
 
-        // Set prop health
-        Utils.SetHealth(player, Config.PropHealth);
+        // Set health based on prop size
+        Utils.SetHealth(player, propHealth);
+
+        // Notify player about their prop size and health
+        string sizeText = propSize switch
+        {
+            PropSize.Small => "Kucuk",
+            PropSize.Large => "Buyuk",
+            _ => "Orta"
+        };
+        player.PrintToChat($" {Config.Prefix} Prop boyutu: {{yellow}}{sizeText}{{default}} | Can: {{green}}{propHealth}{{default}}");
     }
 
     /// <summary>
@@ -338,10 +352,35 @@ public partial class PropHuntPlugin : BasePlugin, IPluginConfig<PluginConfig>
             data.PropEntity.SetModel(newModel);
         }
 
+        // Update prop size and adjust health accordingly
+        var newSize = Utils.ClassifyPropSize(newModel);
+        var oldSize = data.Size;
+        data.Size = newSize;
+
+        int newMaxHealth = Utils.GetHealthForPropSize(newSize, Config.PropHealthSmall, Config.PropHealthMedium, Config.PropHealthLarge);
+        int oldMaxHealth = Utils.GetHealthForPropSize(oldSize, Config.PropHealthSmall, Config.PropHealthMedium, Config.PropHealthLarge);
+
+        // Scale current health proportionally to new max health
+        var pawn = player.PlayerPawn.Value;
+        if (pawn != null)
+        {
+            int currentHealth = pawn.Health;
+            int scaledHealth = (int)Math.Ceiling((double)currentHealth / oldMaxHealth * newMaxHealth);
+            scaledHealth = Math.Clamp(scaledHealth, 1, newMaxHealth);
+            Utils.SetHealth(player, scaledHealth);
+        }
+
+        string sizeText = newSize switch
+        {
+            PropSize.Small => "Kucuk",
+            PropSize.Large => "Buyuk",
+            _ => "Orta"
+        };
+
         if (!IsHidingPhase)
-            PrintToChat(player, $"{ChatColors.Green}Model degistirildi! {ChatColors.Grey}Kalan: {ChatColors.Yellow}{data.SwapsLeft}");
+            PrintToChat(player, $"{ChatColors.Green}Model degistirildi! {ChatColors.Grey}Boyut: {ChatColors.Yellow}{sizeText} {ChatColors.Grey}| Kalan: {ChatColors.Yellow}{data.SwapsLeft}");
         else
-            PrintToChat(player, $"{ChatColors.Green}Model degistirildi!");
+            PrintToChat(player, $"{ChatColors.Green}Model degistirildi! {ChatColors.Grey}Boyut: {ChatColors.Yellow}{sizeText}");
     }
 
     /// <summary>

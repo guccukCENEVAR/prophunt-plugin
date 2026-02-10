@@ -1,0 +1,42 @@
+# PropHunt Models - de_nuke
+# Her satira bir model yolu yazin (.vmdl)
+# '#' ile baslayan satirlar yorum satiridir
+
+# ── Kucuk Proplar ──
+models/props_junk/garbage_plasticbottle001a.vmdl
+models/props_junk/garbage_metalcan001a.vmdl
+models/props_junk/garbage_metalcan002a.vmdl
+models/props_junk/popcan01a.vmdl
+models/props_junk/shoe001a.vmdl
+models/props_junk/garbage_bag001a.vmdl
+models/props/de_nuke/hr_nuke/nuke_fire_extinguisher/nuke_fire_extinguisher.vmdl
+models/props/de_nuke/hr_nuke/nuke_hard_hat/nuke_hard_hat.vmdl
+
+# ── Orta Proplar ──
+models/props/cs_office/trash_can.vmdl
+models/props/cs_office/fire_extinguisher.vmdl
+models/props_junk/plasticcrate01a.vmdl
+models/props_junk/wood_crate001a.vmdl
+models/props_junk/wood_crate002a.vmdl
+models/props_junk/cardboard_box001a.vmdl
+models/props_junk/cardboard_box002a.vmdl
+models/props_junk/cardboard_box003a.vmdl
+models/props/de_dust/hr_dust/dust_food_crate/dust_food_crate001.vmdl
+models/props/de_nuke/hr_nuke/nuke_metal_barrel/nuke_metal_barrel.vmdl
+models/props/de_nuke/hr_nuke/nuke_yellow_barrel/nuke_yellow_barrel.vmdl
+models/props/de_nuke/hr_nuke/nuke_fuel_can/nuke_fuel_can.vmdl
+models/props/de_nuke/hr_nuke/nuke_office_chair/nuke_office_chair.vmdl
+models/props/de_dust/hr_dust/dust_oil_drum/dust_oil_drum.vmdl
+models/props/de_dust/hr_dust/dust_tire/dust_tire.vmdl
+models/props/de_nuke/hr_nuke/nuke_toolbox/nuke_toolbox.vmdl
+models/props_c/emachine01.vmdl
+
+# ── Buyuk Proplar ──
+models/props_junk/wood_pallet001a.vmdl
+models/props/de_nuke/hr_nuke/nuke_metal_crate/nuke_metal_crate.vmdl
+models/props/de_nuke/hr_nuke/nuke_locker/nuke_locker.vmdl
+models/props/cs_office/sofa.vmdl
+models/props/cs_office/bookshelf1.vmdl
+models/props/cs_office/vending_machine01.vmdl
+models/props/de_dust/hr_dust/dust_crates/dust_crate_style_01_large.vmdl
+models/props/de_nuke/hr_nuke/nuke_wheelbarrow/nuke_wheelbarrow.vmdl

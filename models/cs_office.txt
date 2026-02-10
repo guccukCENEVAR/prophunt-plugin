@@ -2,9 +2,43 @@
 # Her satira bir model yolu yazin (.vmdl)
 # '#' ile baslayan satirlar yorum satiridir
 
+# ── Kucuk Proplar ──
+models/props_junk/garbage_plasticbottle001a.vmdl
+models/props_junk/garbage_metalcan001a.vmdl
+models/props_junk/popcan01a.vmdl
+models/props_junk/shoe001a.vmdl
+models/props/de_dust/hr_dust/dust_soccerball/dust_soccer_ball001.vmdl
+models/props/de_inferno/claypot02.vmdl
+models/props/cs_office/paper_towels.vmdl
+models/props/cs_office/snowman_face.vmdl
+
+# ── Orta Proplar ──
 models/props/cs_office/trash_can.vmdl
 models/props/cs_office/chair_office.vmdl
 models/props/cs_office/computer_monitor.vmdl
-models/props/de_inferno/claypot03.vmdl
+models/props/cs_office/fire_extinguisher.vmdl
+models/props/cs_office/plant01.vmdl
+models/props/cs_office/microwave.vmdl
+models/props/cs_office/projector.vmdl
+models/props/cs_office/phone.vmdl
+models/props/cs_office/computer_keyboard.vmdl
+models/props/cs_office/water_cooler.vmdl
+models/props/cs_office/file_cabinet.vmdl
+models/props/cs_office/cardboard_box01.vmdl
+models/props_junk/plasticcrate01a.vmdl
+models/props_junk/cardboard_box001a.vmdl
+models/props_junk/cardboard_box003a.vmdl
 models/props/de_dust/hr_dust/dust_food_crate/dust_food_crate001.vmdl
-models/props/de_dust/hr_dust/dust_soccerball/dust_soccer_ball001.vmdl
+models/props/cs_office/coffee_mug.vmdl
+models/props_c/emachine01.vmdl
+
+# ── Buyuk Proplar ──
+models/props/cs_office/sofa.vmdl
+models/props/cs_office/bookshelf1.vmdl
+models/props/cs_office/file_cabinet_tall.vmdl
+models/props/cs_office/table_meeting.vmdl
+models/props/cs_office/desk.vmdl
+models/props/cs_office/vending_machine01.vmdl
+models/props_junk/wood_pallet001a.vmdl
+models/props/cs_office/whiteboard.vmdl
+models/props/cs_office/shelves_metal.vmdl

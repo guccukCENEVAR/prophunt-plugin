@@ -1,24 +1,20 @@
-# PropHunt Models - de_dust2
+# PropHunt Models - de_overpass
 # Her satira bir model yolu yazin (.vmdl)
 # '#' ile baslayan satirlar yorum satiridir
 
 # ── Kucuk Proplar ──
-models/props/de_dust/hr_dust/dust_soccerball/dust_soccer_ball001.vmdl
-models/props/de_dust/hr_dust/dust_pottery/dust_pottery_02.vmdl
-models/props/de_dust/hr_dust/dust_pottery/dust_pottery_03.vmdl
-models/props/de_inferno/claypot02.vmdl
-models/props/de_inferno/claypot03.vmdl
 models/props_junk/garbage_plasticbottle001a.vmdl
 models/props_junk/garbage_metalcan001a.vmdl
 models/props_junk/garbage_metalcan002a.vmdl
 models/props_junk/popcan01a.vmdl
 models/props_junk/shoe001a.vmdl
 models/props_junk/garbage_bag001a.vmdl
+models/props/de_inferno/claypot02.vmdl
+models/props/de_inferno/claypot03.vmdl
+models/props/de_dust/hr_dust/dust_soccerball/dust_soccer_ball001.vmdl
 models/props/de_dust/hr_dust/dust_rusty_bucket/dust_rusty_bucket.vmdl
 
 # ── Orta Proplar ──
-models/props/de_dust/hr_dust/dust_food_crate/dust_food_crate001.vmdl
-models/props/de_dust/hr_dust/dust_crates/dust_crate_style_01_small.vmdl
 models/props/cs_office/trash_can.vmdl
 models/props_junk/plasticcrate01a.vmdl
 models/props_junk/wood_crate001a.vmdl
@@ -26,20 +22,23 @@ models/props_junk/wood_crate002a.vmdl
 models/props_junk/cardboard_box001a.vmdl
 models/props_junk/cardboard_box002a.vmdl
 models/props_junk/cardboard_box004a.vmdl
+models/props/de_dust/hr_dust/dust_food_crate/dust_food_crate001.vmdl
+models/props/de_dust/hr_dust/dust_crates/dust_crate_style_01_small.vmdl
 models/props/de_inferno/flower_barrel.vmdl
-models/props/de_inferno/de_inferno_bucket.vmdl
 models/props/cs_office/fire_extinguisher.vmdl
-models/props/de_dust/hr_dust/dust_wooden_barrel/dust_wooden_barrel.vmdl
 models/props/de_dust/hr_dust/dust_oil_drum/dust_oil_drum.vmdl
 models/props/de_dust/hr_dust/dust_tire/dust_tire.vmdl
 models/props/de_dust/hr_dust/dust_gas_can/dust_gas_can.vmdl
+models/props/de_inferno/de_inferno_bucket.vmdl
+models/props_c/emachine01.vmdl
+models/props/de_overpass/hr_overpass/overpass_traffic_cone/overpass_traffic_cone.vmdl
 
 # ── Buyuk Proplar ──
-models/props/de_dust/hr_dust/dust_metal_door/dust_metal_door001.vmdl
-models/props/de_dust/hr_dust/dust_crates/dust_crate_style_01_large.vmdl
 models/props_junk/wood_pallet001a.vmdl
-models/props/de_dust/hr_dust/dust_market_cart/dust_market_cart.vmdl
-models/props/de_dust/hr_dust/dust_satellite_dish/dust_satellite_dish.vmdl
+models/props/de_dust/hr_dust/dust_crates/dust_crate_style_01_large.vmdl
+models/props/de_dust/hr_dust/dust_metal_door/dust_metal_door001.vmdl
 models/props/de_inferno/hr_i/inferno_wood_pile/inferno_wood_pile.vmdl
 models/props/cs_office/sofa.vmdl
-models/props/de_dust/hr_dust/dust_carpet_01/dust_carpet_01.vmdl
+models/props/de_overpass/hr_overpass/overpass_dumpster/overpass_dumpster.vmdl
+models/props/de_overpass/hr_overpass/overpass_bench/overpass_bench.vmdl
+models/props/cs_office/vending_machine01.vmdl

@@ -12,6 +12,8 @@ Saklananlar haritadaki proplara donuserek gizlenir, arayicilar onlari bulup vurm
 - **Prop Secimi** - Chat menusu veya rastgele atama ile prop modeli sec
 - **Saklanma Fazi** - Ayarlanabilir sure boyunca arayicilar dondurulur, saklananlar gizlenir
 - **Prop Hasar Sistemi** - Arayicilar prop'u vurursa saklanan oyuncu olur
+- **Boyut-Can Sistemi** - Kucuk/Orta/Buyuk proplar farkli cana sahip (30/100/300)
+- **Oransal Can Olcekleme** - Model degistirince can yuzdesi korunur
 - **CheckTransmit Gizleme** - Oyuncu pawn'i istemciye hic gonderilmez (gercek gorunmezlik)
 - **Ses Gizleme** - Saklanan oyuncunun adim/hareket sesleri diger oyunculara iletilmez
 - **Taunt Sesi** - Sol tik veya `!taunt` ile ses calarak arayicilara ipucu ver
@@ -22,9 +24,10 @@ Saklananlar haritadaki proplara donuserek gizlenir, arayicilar onlari bulup vurm
 - **3. Sahis Gorunum** - Saklananlar kendini gorebilir
 - **Islik** - `!whistle` ile arayicilara sesli ipucu ver
 - **Takim Karistirma** - Her round oncesi takimlar otomatik karistirilir
-- **Harita Bazli Modeller** - Her harita icin farkli model listeleri tanimla
+- **Harita Bazli Modeller** - 10 harita icin 25-30 model/harita
 - **Otomatik Model Kesfi** - Haritadaki fizik proplari otomatik eklenir
 - **Son Saklanan Bildirimi** - Son kalan saklanan oyuncu herkes tarafindan bildirilir
+- **Arayici Miss Cezasi** - Bos propa ates eden arayici HP kaybeder
 
 ---
 
@@ -61,6 +64,23 @@ Saklananlar haritadaki proplara donuserek gizlenir, arayicilar onlari bulup vurm
 6. Sure dolunca arayicilara silah verilir ve av baslar
 7. Arayicilar proplari vurarak saklananlari oldurur
 8. Tum saklananlar olurse arayicilar, sure bitene kadar saklananlar hayatta kalirsa saklananlar kazanir
+
+---
+
+## Prop Boyut-Can Sistemi
+
+Proplar buyukluklerine gore farkli cana sahiptir:
+
+| Boyut | Varsayilan HP | Ornek Proplar |
+|-------|:------------:|---------------|
+| **Kucuk** | 30 | Sise, kutu, ayakkabi, top, seramik |
+| **Orta** | 100 | Kasa, varil, sandalye, monitor, cop kutusu |
+| **Buyuk** | 300 | Kapi, koltuk, kitaplik, otomat, masa |
+
+Model degistirdiginde can yuzdesi oransal olarak korunur:
+- Buyuk prop (300 HP) ile basladin, 150 HP'ye dustun (%50)
+- Orta propa swap yaptin -> 50 HP (%50 korunur)
+- Kucuk propa swap yaptin -> 15 HP (%50 korunur)
 
 ---
 
@@ -123,7 +143,9 @@ Ilk calistirmadan sonra config dosyasi olusur:
   "HideTime": 60,
   "TeamScramble": true,
   "MinPlayers": 2,
-  "PropHealth": 100,
+  "PropHealthSmall": 30,
+  "PropHealthMedium": 100,
+  "PropHealthLarge": 300,
   "SeekerHealth": 150,
   "SwapLimit": 3,
   "DecoyLimit": 2,
@@ -165,7 +187,9 @@ Ilk calistirmadan sonra config dosyasi olusur:
 | `HideTime` | `60` | Saklanma suresi (saniye) |
 | `TeamScramble` | `true` | Round oncesi takimlari karistir |
 | `MinPlayers` | `2` | Minimum oyuncu sayisi |
-| `PropHealth` | `100` | Saklanan prop cani |
+| `PropHealthSmall` | `30` | Kucuk prop cani (sise, kutu, top...) |
+| `PropHealthMedium` | `100` | Orta prop cani (kasa, varil, sandalye...) |
+| `PropHealthLarge` | `300` | Buyuk prop cani (koltuk, kapi, kitaplik...) |
 | `SeekerHealth` | `150` | Arayici cani |
 | `SwapLimit` | `3` | Model degistirme limiti (saklanma fazinda sinirsiz) |
 | `DecoyLimit` | `2` | Sahte prop limiti |
@@ -177,7 +201,7 @@ Ilk calistirmadan sonra config dosyasi olusur:
 | `PropDamageKill` | `true` | Prop vurulunca oyuncu olsun mu? |
 | `SeekerDamagePerMiss` | `5` | Bos propa ates edince kaybedilen HP |
 | `SeekerWeapons` | `knife, p90, deagle` | Arayicilara verilecek silahlar |
-| `DefaultModels` | `(8 model)` | Harita dosyasi yoksa kullanilacak modeller |
+| `DefaultModels` | `(40 model)` | Harita dosyasi yoksa kullanilacak modeller |
 | `KeyTaunt` | `Attack` | Taunt tusu |
 | `KeySwap` | `Attack2` | Swap tusu |
 | `KeyFreeze` | `Use` | Freeze tusu |
@@ -196,7 +220,13 @@ plugins/PropHunt/
     de_mirage.txt
     de_inferno.txt
     de_dust2.txt
+    de_nuke.txt
+    de_overpass.txt
+    de_ancient.txt
+    de_anubis.txt
+    de_vertigo.txt
     cs_office.txt
+    cs_italy.txt
 ```
 
 Her `.txt` dosyasina satirda bir model yolu yazin:
@@ -231,6 +261,8 @@ JSON formati da desteklenir (`harita.json`):
 | Oyuncu Gizleme | `CheckTransmit` listener - pawn verisi istemciye gonderilmez |
 | Ses Gizleme | UserMessage hook (ID 208 - CMsgSosStartSoundEvent) |
 | Prop Hasar | `HookEntityOutput("prop_dynamic", "OnTakeDamage")` |
+| Prop Boyut | Anahtar kelime tabanli siniflandirma (Small/Medium/Large) |
+| Oransal Can | `currentHP / oldMaxHP * newMaxHP` swap sirasinda |
 | Oyuncu Dondurma | `MoveType_t.MOVETYPE_OBSOLETE` + Schema set |
 | Tus Algilama | `PlayerButtons` flag kontrolu (one-press detection) |
 | Taunt Sesi | `point_soundevent` entity olusturma |
@@ -249,12 +281,18 @@ prophunt/
   Commands.cs               # Admin + oyuncu komutlari, prop menusu
   Config.cs                 # Yapilandirma sinifi
   PlayerPropData.cs         # Oyuncu prop veri modeli
-  Utils.cs                  # Yardimci fonksiyonlar
-  models/                   # Harita bazli model listeleri
+  Utils.cs                  # Yardimci fonksiyonlar (boyut siniflandirma dahil)
+  models/                   # Harita bazli model listeleri (10 harita)
     de_mirage.txt
     de_inferno.txt
     de_dust2.txt
+    de_nuke.txt
+    de_overpass.txt
+    de_ancient.txt
+    de_anubis.txt
+    de_vertigo.txt
     cs_office.txt
+    cs_italy.txt
 ```
 
 ---
@@ -273,6 +311,3 @@ Cikti: `bin/Release/net8.0/PropHunt.dll`
 ## Lisans
 
 Bu proje acik kaynaktir.
-"# prophunt" 
-"# prophunt" 
-"# prophunt" 

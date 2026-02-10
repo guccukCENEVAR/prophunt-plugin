@@ -1,0 +1,43 @@
+# PropHunt Models - de_vertigo
+# Her satira bir model yolu yazin (.vmdl)
+# '#' ile baslayan satirlar yorum satiridir
+
+# ── Kucuk Proplar ──
+models/props_junk/garbage_plasticbottle001a.vmdl
+models/props_junk/garbage_metalcan001a.vmdl
+models/props_junk/garbage_metalcan002a.vmdl
+models/props_junk/popcan01a.vmdl
+models/props_junk/shoe001a.vmdl
+models/props_junk/garbage_bag001a.vmdl
+models/props/de_dust/hr_dust/dust_soccerball/dust_soccer_ball001.vmdl
+models/props/de_dust/hr_dust/dust_rusty_bucket/dust_rusty_bucket.vmdl
+
+# ── Orta Proplar ──
+models/props/cs_office/trash_can.vmdl
+models/props/cs_office/fire_extinguisher.vmdl
+models/props_junk/plasticcrate01a.vmdl
+models/props_junk/wood_crate001a.vmdl
+models/props_junk/wood_crate002a.vmdl
+models/props_junk/cardboard_box001a.vmdl
+models/props_junk/cardboard_box002a.vmdl
+models/props_junk/cardboard_box003a.vmdl
+models/props_junk/cardboard_box004a.vmdl
+models/props/de_dust/hr_dust/dust_food_crate/dust_food_crate001.vmdl
+models/props/de_dust/hr_dust/dust_oil_drum/dust_oil_drum.vmdl
+models/props/de_dust/hr_dust/dust_tire/dust_tire.vmdl
+models/props/de_dust/hr_dust/dust_gas_can/dust_gas_can.vmdl
+models/props/de_nuke/hr_nuke/nuke_metal_barrel/nuke_metal_barrel.vmdl
+models/props/de_nuke/hr_nuke/nuke_toolbox/nuke_toolbox.vmdl
+models/props/de_vertigo/hr_vertigo/vertigo_traffic_cone/vertigo_traffic_cone.vmdl
+models/props/de_vertigo/hr_vertigo/vertigo_hard_hat/vertigo_hard_hat.vmdl
+models/props_c/emachine01.vmdl
+
+# ── Buyuk Proplar ──
+models/props_junk/wood_pallet001a.vmdl
+models/props/de_dust/hr_dust/dust_crates/dust_crate_style_01_large.vmdl
+models/props/de_dust/hr_dust/dust_metal_door/dust_metal_door001.vmdl
+models/props/cs_office/sofa.vmdl
+models/props/cs_office/vending_machine01.vmdl
+models/props/de_vertigo/hr_vertigo/vertigo_wheelbarrow/vertigo_wheelbarrow.vmdl
+models/props/de_nuke/hr_nuke/nuke_metal_crate/nuke_metal_crate.vmdl
+models/props/de_vertigo/hr_vertigo/vertigo_cement_bag/vertigo_cement_bag.vmdl

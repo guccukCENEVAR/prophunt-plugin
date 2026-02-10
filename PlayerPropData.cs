@@ -6,6 +6,7 @@ public class PlayerPropData
 {
     public CDynamicProp? PropEntity { get; set; }
     public string ModelPath { get; set; } = string.Empty;
+    public PropSize Size { get; set; } = PropSize.Medium;
     public bool IsFrozen { get; set; } = false;
     public int SwapsLeft { get; set; }
     public int DecoysLeft { get; set; }
