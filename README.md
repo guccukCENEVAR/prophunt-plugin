@@ -17,9 +17,9 @@ Saklananlar haritadaki proplara donuserek gizlenir, arayicilar onlari bulup vurm
 - **CheckTransmit Gizleme** - Oyuncu pawn'i istemciye hic gonderilmez (gercek gorunmezlik)
 - **Ses Gizleme** - Saklanan oyuncunun adim/hareket sesleri diger oyunculara iletilmez
 - **Taunt Sesi** - Sol tik veya `!taunt` ile ses calarak arayicilara ipucu ver
-- **Tus Atamalari** - Sol tik, sag tik, E, R tuslarina aksiyon atanabilir
+- **Tus Atamalari** - Sol tik, sag tik, E, R tuslarina aksiyon atanabilir (dinamik, config'den ayarlanir)
 - **Dondurma** - Saklananlar kendini dondurarak sabit prop gibi davranabilir
-- **Decoy Sistemi** - Sahte prop birakarak arayicilari yanilt
+- **Decoy Sistemi** - Sahte prop birakarak arayicilari yanilt (varsayilan kapali, config'den acilir)
 - **Model Degistirme** - Sinirli sayida model degistirme hakki
 - **3. Sahis Gorunum** - Saklananlar kendini gorebilir
 - **Islik** - `!whistle` ile arayicilara sesli ipucu ver
@@ -230,16 +230,19 @@ Model degistirdiginde can yuzdesi oransal olarak korunur:
 
 ## Tus Atamalari (Saklananlar)
 
-Saklanan oyuncular silah tasimadigi icin tuslar aksiyonlara atanmistir:
+Saklanan oyuncular silah tasimadigi icin tuslar aksiyonlara atanmistir.
+Tus atamalari her round basinda chate ve ekrana otomatik yazilir.
 
 | Tus | Varsayilan Aksiyon | Config Anahtari |
 |-----|--------------------|-----------------|
 | Sol Tik | Taunt sesi cal | `KeyTaunt` |
 | Sag Tik | Model degistir | `KeySwap` |
 | E (Use) | Dondur / Coz | `KeyFreeze` |
-| R (Reload) | Decoy yerlestir | `KeyDecoy` |
+| R (Reload) | Islik cal | `KeyWhistle` |
+| - | Decoy yerlestir | `KeyDecoy` (varsayilan kapali) |
 
 Tus atamalarini config'den degistirebilir veya `"None"` yaparak devre disi birakabilirsiniz.
+`"None"` olan aksiyonlar sadece chat komutuyla kullanilabilir (ornegin `!decoy`).
 
 Kullanilabilir degerler: `Attack`, `Attack2`, `Use`, `Reload`, `None`
 
@@ -263,7 +266,7 @@ Ilk calistirmadan sonra config dosyasi olusur:
   "PropHealthLarge": 300,
   "SeekerHealth": 150,
   "SwapLimit": 3,
-  "DecoyLimit": 2,
+  "DecoyLimit": 0,
   "WhistleLimit": 5,
   "WhistleCooldown": 10,
   "TauntLimit": 5,
@@ -288,7 +291,8 @@ Ilk calistirmadan sonra config dosyasi olusur:
   "KeyTaunt": "Attack",
   "KeySwap": "Attack2",
   "KeyFreeze": "Use",
-  "KeyDecoy": "Reload"
+  "KeyWhistle": "Reload",
+  "KeyDecoy": "None"
 }
 ```
 
@@ -307,7 +311,7 @@ Ilk calistirmadan sonra config dosyasi olusur:
 | `PropHealthLarge` | `300` | Buyuk prop cani (koltuk, kapi, kitaplik...) |
 | `SeekerHealth` | `150` | Arayici cani |
 | `SwapLimit` | `3` | Model degistirme limiti (saklanma fazinda sinirsiz) |
-| `DecoyLimit` | `2` | Sahte prop limiti |
+| `DecoyLimit` | `0` | Sahte prop limiti (0 = kapali, config'den acilir) |
 | `WhistleLimit` | `5` | Islik limiti |
 | `WhistleCooldown` | `10` | Islik bekleme suresi (saniye) |
 | `TauntLimit` | `5` | Taunt limiti |
@@ -317,10 +321,11 @@ Ilk calistirmadan sonra config dosyasi olusur:
 | `SeekerDamagePerMiss` | `5` | Bos propa ates edince kaybedilen HP |
 | `SeekerWeapons` | `knife, p90, deagle` | Arayicilara verilecek silahlar |
 | `DefaultModels` | `(40 model)` | Harita dosyasi yoksa kullanilacak modeller |
-| `KeyTaunt` | `Attack` | Taunt tusu |
-| `KeySwap` | `Attack2` | Swap tusu |
-| `KeyFreeze` | `Use` | Freeze tusu |
-| `KeyDecoy` | `Reload` | Decoy tusu |
+| `KeyTaunt` | `Attack` | Taunt tusu (Sol Tik) |
+| `KeySwap` | `Attack2` | Swap tusu (Sag Tik) |
+| `KeyFreeze` | `Use` | Freeze tusu (E) |
+| `KeyWhistle` | `Reload` | Islik tusu (R) |
+| `KeyDecoy` | `None` | Decoy tusu (kapali, config'den atanir) |
 
 ---
 
